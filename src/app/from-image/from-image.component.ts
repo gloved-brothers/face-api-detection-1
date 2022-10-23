@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Component, OnInit } from '@angular/core';
 import * as faceapi from 'face-api.js';
 
 @Component({
@@ -14,19 +7,13 @@ import * as faceapi from 'face-api.js';
   styleUrls: ['./from-image.component.css'],
 })
 export class FromImageComponent implements OnInit {
-  @ViewChild('canvas', { static: true }) canvasRef: ElementRef;
-  canvas: any;
-
-  constructor(private sanitizer: DomSanitizer) {}
+  constructor() {}
 
   async ngOnInit(): Promise<void> {
-    await faceapi.nets.ssdMobilenetv1
-      .loadFromUri('../../assets/models')
-      .then(() => {
-        this.detect();
-      });
+    this.detect();
   }
   async detect() {
+    await faceapi.nets.ssdMobilenetv1.loadFromUri('../../assets/models');
     const image = document.querySelector('img') as HTMLImageElement;
 
     const canvas = faceapi.createCanvasFromMedia(image);
